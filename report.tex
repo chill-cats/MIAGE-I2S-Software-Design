@@ -1,0 +1,61 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{hmargin=2.5cm,vmargin=2.5cm}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+\begin{document}
+
+% --- CUSTOM UT CAPITOLE COVER PAGE ---
+\begin{titlepage}
+    \centering
+    \begin{minipage}{0.4\textwidth}
+        % Make sure to download the official UT Capitole logo from the intranet
+        %\includegraphics[width=\textwidth]{logo_ut_capitole.png}
+        \textbf{UNIVERSITÉ TOULOUSE CAPITOLE}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.4\textwidth}
+        \raggedleft
+        \textit{Année Universitaire 2026-2027}
+    \end{minipage}
+    
+    \vfill
+    {\large \textbf{RAPPORT DE STAGE / MEMOIRE}} \\[1cm]
+    {\huge \bfseries Title of Your Report } \\[0.5cm]
+    {\large Subtitle if necessary}
+    
+    \vfill
+    \begin{minipage}{0.4\textwidth}
+        \textbf{Présenté par :} \\
+        Firstname \textsc{Lastname}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.4\textwidth}
+        \raggedleft
+        \textbf{Sous la direction de :} \\
+        Prof. Firstname \textsc{Lastname}
+    \end{minipage}
+    
+    \vfill
+    {\large Date de soutenance : DD/MM/YYYY}
+\end{titlepage}
+
+% --- MANDATORY UNIVERSITY DISCLAIMER ---
+\thispagestyle{empty}
+\noindent\textit{« L'Université n'entend donner aucune approbation ni approbation aux opinions émises dans les thèses ou rapports ; ces opinions doivent être considérées comme propres à leurs auteurs. »}
+\clearpage
+
+% --- PRELIMINARY PAGES ---
+\tableofcontents
+\clearpage
+
+% --- MAIN CONTENT ---
+\chapter{Introduction}
+Your text goes here.
+
+\end{document}

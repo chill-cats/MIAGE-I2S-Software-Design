@@ -1,0 +1,20 @@
+@startuml usecase
+left to right direction
+actor "User" as user
+rectangle "Use Case" {
+  user --> (Login)
+  user --> (Register)
+  user --> (View Profile)
+  user --> (Edit Profile)
+  user --> (Logout)
+  user --> (Search)
+  user --> (View Item)
+  user --> (Add to Cart)
+  user --> (Checkout)
+  user --> (Make Payment)
+  user --> (View Order History)
+  user --> (Cancel Order)
+}
+
+
+@enduml
