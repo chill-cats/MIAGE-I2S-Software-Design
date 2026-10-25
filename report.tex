@@ -7,8 +7,13 @@
 \geometry{hmargin=2.5cm,vmargin=2.5cm}
 \usepackage{hyperref}
 \usepackage{titlesec}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,shapes.geometric}
 
 \begin{document}
+
+\title{Report \newline Software Design}
+\author{Nguyen Hoang Nhan LE \and Quynh Anh HOANG \and Hanane }
 
 % --- CUSTOM UT CAPITOLE COVER PAGE ---
 \begin{titlepage}
@@ -16,7 +21,9 @@
     \begin{minipage}{0.4\textwidth}
         % Make sure to download the official UT Capitole logo from the intranet
         %\includegraphics[width=\textwidth]{logo_ut_capitole.png}
-        \textbf{UNIVERSITÉ TOULOUSE CAPITOLE}
+        \textbf{\begin{center}
+            UNIVERSITÉ TOULOUSE CAPITOLE
+        \end{center}}
     \end{minipage}
     \hfill
     \begin{minipage}{0.4\textwidth}
@@ -25,20 +32,21 @@
     \end{minipage}
     
     \vfill
-    {\large \textbf{RAPPORT DE STAGE / MEMOIRE}} \\[1cm]
-    {\huge \bfseries Title of Your Report } \\[0.5cm]
-    {\large Subtitle if necessary}
+    {\large \textbf{REPORT}} \\[1cm]
+    {\huge \bfseries Software Design } \\[0.5cm]
+    {\large Assignment 1}
     
     \vfill
     \begin{minipage}{0.4\textwidth}
-        \textbf{Présenté par :} \\
-        Firstname \textsc{Lastname}
+        \textbf{Group member :} \\
+        Nguyen Hoang Nhan \textsc{LE} \\
+        Quynh Anh \textsc{HOANG}
     \end{minipage}
     \hfill
     \begin{minipage}{0.4\textwidth}
         \raggedleft
-        \textbf{Sous la direction de :} \\
-        Prof. Firstname \textsc{Lastname}
+        \textbf{Professor :} \\
+        Prof. Laurent \textsc{Perrussel}
     \end{minipage}
     
     \vfill
@@ -57,5 +65,7 @@
 % --- MAIN CONTENT ---
 \chapter{Introduction}
 Your text goes here.
+
+\input{digrams/usecase/usecase.tikz}
 
 \end{document}

@@ -1,0 +1,59 @@
+% Requires \usepackage{tikz} and \usetikzlibrary{arrows.meta,shapes.geometric}
+\begin{tikzpicture}[
+  font=\small,
+  usecase/.style={draw,ellipse,minimum width=3.7cm,minimum height=0.9cm,align=center},
+  association/.style={draw},
+  extension/.style={draw,dashed,-{Straight Barb[length=2.5mm]}},
+  pics/actor/.style={code={
+    \draw (0,0.65) circle[radius=0.16];
+    \draw (0,0.49) -- (0,0.02);
+    \draw (-0.3,0.32) -- (0.3,0.32);
+    \draw (0,0.02) -- (-0.26,-0.35);
+    \draw (0,0.02) -- (0.26,-0.35);
+    % Leave a visible gap beyond the hands; associations never enter the figure.
+    \coordinate (-left) at (-0.65,0.25);
+    \coordinate (-right) at (0.65,0.25);
+  }}
+]
+  % System boundary and title.
+  \draw (2.3,-1) rectangle (11.5,10.1);
+  \node[font=\small\bfseries] at (6.9,9.7)
+    {Online Car Rental Management System};
+
+  \node[usecase] (Pay) at (5.2,8.5) {Pay for Reservation};
+  \node[usecase] (Reserve) at (5.2,6.6) {Make Reservation};
+  \node[usecase] (Pickup) at (5.2,5.1) {Pickup Car};
+  \node[usecase] (Return) at (5.2,3.6) {Return Car};
+  \node[usecase] (Cancel) at (5.2,2.1) {Cancel Reservation};
+  \node[usecase] (ReportIncident) at (5.2,0.6) {Report Incident};
+  \node[usecase] (ManageIncident) at (9.2,-0.25) {Manage Incident};
+
+  % Actors remain outside the software boundary.
+  \pic (Customer) at (0,4.1) {actor};
+  \node[below,align=center] at (0,3.65) {Customer};
+  \pic (PaymentServiceProvider) at (13.3,8.25) {actor};
+  \node[below,align=center] at (13.3,7.8) {Payment Service\\Provider};
+  \pic (AgencyEmployee) at (13.3,4.1) {actor};
+  \node[below,align=center] at (13.3,3.65) {Agency Employee};
+  \pic (HotlineOperator) at (13.3,0) {actor};
+  \node[below,align=center] at (13.3,-0.45) {Hotline Operator};
+
+  % Preserve every association in usecase.pu.
+  \foreach \target in {Reserve,Pay,Pickup,Return,ReportIncident,Cancel}
+    \draw[association] (Customer-right) -- (\target.west);
+  % Route the low association outside the customer label and below the use cases.
+  \draw[association] (Customer-right) -- (1.6,-0.65)
+    -- (7,-0.65) -- (ManageIncident.west);
+  \draw[association] (Pay.east) -- (PaymentServiceProvider-left);
+  \draw[association] (Pickup.east) -- (AgencyEmployee-left);
+  \draw[association] (Return.east) -- (AgencyEmployee-left);
+  \draw[association] (ManageIncident.east) -- (HotlineOperator-left);
+
+  % The extending use case points to the base use case.
+  \draw[extension] (Pay.south) -- node[left] {$\langle\!\langle$extend$\rangle\!\rangle$}
+    coordinate[midway] (ExtensionNoteAnchor) (Reserve.north);
+  \node[draw,fill=yellow!12,align=left,text width=2.65cm,inner sep=6pt]
+    (ExtensionNote) at (9.5,7) {\textbf{Condition:}\\Prepay selected\\[3pt]
+    \textbf{Extension point:}\\Complete booking};
+  \draw[dashed] (ExtensionNoteAnchor) -- (ExtensionNote.west);
+\end{tikzpicture}

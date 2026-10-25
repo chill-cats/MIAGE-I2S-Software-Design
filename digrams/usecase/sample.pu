@@ -1,0 +1,110 @@
+@startuml
+left to right direction
+
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+actor "Customer" as Customer
+actor "Agency Employee" as Employee
+actor "Hotline Operator" as Hotline
+actor "Payment Service" as Payment
+
+rectangle "Online Car Rental System" {
+
+    package "Reservation Management" {
+        usecase "Make Reservation" as UC_Reserve
+        usecase "Specify Rental Details" as UC_Details
+        usecase "Select Car Category" as UC_Category
+        usecase "Select Payment Option" as UC_PaymentOption
+        usecase "Add Extra Insurance" as UC_Insurance
+        usecase "Add Extra Options" as UC_Options
+        usecase "Sign In" as UC_Login
+        usecase "Provide Personal Details" as UC_Personal
+        usecase "Pay Reservation" as UC_Pay
+
+        usecase "Cancel Reservation" as UC_Cancel
+        usecase "Pay Cancellation Fee" as UC_Fee
+    }
+
+    package "Vehicle Pickup" {
+        usecase "Pick Up Car" as UC_Pickup
+        usecase "Allocate Vehicle" as UC_Allocate
+        usecase "Verify and Scan\nDriving Licence" as UC_Licence
+        usecase "Inspect Vehicle" as UC_Inspect
+        usecase "Sign Vehicle Evaluation" as UC_Sign
+        usecase "Collect Rental Payment" as UC_Collect
+    }
+
+    package "Vehicle Return" {
+        usecase "Return Car" as UC_Return
+        usecase "Inspect Returned Vehicle" as UC_InspectReturn
+        usecase "Record Return Information" as UC_Record
+    }
+
+    package "Incident Management" {
+        usecase "Report Incident" as UC_Report
+        usecase "Provide Incident Details" as UC_IncidentDetails
+        usecase "Upload Incident Photos" as UC_Photos
+
+        usecase "Handle Incident" as UC_Handle
+        usecase "Contact Customer" as UC_Contact
+        usecase "Coordinate Repair" as UC_Repair
+    }
+}
+
+' Customer associations
+Customer -- UC_Reserve
+Customer -- UC_Cancel
+Customer -- UC_Pickup
+Customer -- UC_Return
+Customer -- UC_Report
+Customer -- UC_Sign
+
+' Agency employee associations
+UC_Pickup -- Employee
+UC_Return -- Employee
+
+' Hotline associations
+UC_Handle -- Hotline
+
+' Payment service associations
+UC_Pay -- Payment
+UC_Fee -- Payment
+UC_Collect -- Payment
+
+' Reservation relationships
+UC_Reserve ..> UC_Details : <<include>>
+UC_Reserve ..> UC_Category : <<include>>
+UC_Reserve ..> UC_PaymentOption : <<include>>
+UC_Reserve ..> UC_Login : <<include>>
+UC_Reserve ..> UC_Personal : <<include>>
+
+UC_Insurance ..> UC_Reserve : <<extend>>
+UC_Options ..> UC_Reserve : <<extend>>
+UC_Pay ..> UC_Reserve : <<extend>>
+
+' Cancellation relationships
+UC_Cancel ..> UC_Login : <<include>>
+UC_Fee ..> UC_Cancel : <<extend>>
+
+' Pickup relationships
+UC_Pickup ..> UC_Allocate : <<include>>
+UC_Pickup ..> UC_Licence : <<include>>
+UC_Pickup ..> UC_Inspect : <<include>>
+UC_Pickup ..> UC_Sign : <<include>>
+
+UC_Collect ..> UC_Pickup : <<extend>>
+
+' Return relationships
+UC_Return ..> UC_InspectReturn : <<include>>
+UC_Return ..> UC_Record : <<include>>
+UC_Return ..> UC_Sign : <<include>>
+
+' Incident relationships
+UC_Report ..> UC_IncidentDetails : <<include>>
+UC_Photos ..> UC_Report : <<extend>>
+
+UC_Handle ..> UC_Contact : <<include>>
+UC_Handle ..> UC_Repair : <<include>>
+
+@enduml
