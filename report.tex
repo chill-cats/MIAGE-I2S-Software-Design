@@ -1,14 +1,12 @@
 \documentclass[12pt,a4paper]{report}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[french]{babel}
 \usepackage{graphicx}
 \usepackage{geometry}
+\usepackage[output=latex]{plantuml}
 \geometry{hmargin=2.5cm,vmargin=2.5cm}
 \usepackage{hyperref}
 \usepackage{titlesec}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta,shapes.geometric}
 
 \begin{document}
 
@@ -16,6 +14,7 @@
 \author{Nguyen Hoang Nhan LE \and Quynh Anh HOANG \and Hanane }
 
 % --- CUSTOM UT CAPITOLE COVER PAGE ---
+\hypersetup{pageanchor=false}
 \begin{titlepage}
     \centering
     \begin{minipage}{0.4\textwidth}
@@ -52,20 +51,26 @@
     \vfill
     {\large Date de soutenance : DD/MM/YYYY}
 \end{titlepage}
+\hypersetup{pageanchor=true}
 
 % --- MANDATORY UNIVERSITY DISCLAIMER ---
-\thispagestyle{empty}
-\noindent\textit{« L'Université n'entend donner aucune approbation ni approbation aux opinions émises dans les thèses ou rapports ; ces opinions doivent être considérées comme propres à leurs auteurs. »}
-\clearpage
+% \thispagestyle{empty}
+% \noindent\textit{« L'Université n'entend donner aucune approbation ni approbation aux opinions émises dans les thèses ou rapports ; ces opinions doivent être considérées comme propres à leurs auteurs. »}
+% \clearpage
 
 % --- PRELIMINARY PAGES ---
 \tableofcontents
 \clearpage
 
 % --- MAIN CONTENT ---
-\chapter{Introduction}
-Your text goes here.
-
-\input{digrams/usecase/usecase.tikz}
+\chapter{Usecase Digrams}
+\section{Overall usecase}
+\begin{center}
+\plantumlinput{digrams/usecase/usecase.pu}
+\end{center}
+\section{Detail of use cases associated to the action "pick up car"}
+\chapter{Class Diagram}
+\chapter{Sequence Diagram}
+\section{Reservation action}
 
 \end{document}

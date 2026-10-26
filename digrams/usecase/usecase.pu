@@ -1,7 +1,7 @@
 @startuml usecase
 allowmixing
-skinparam style strictuml
 left to right direction
+skinparam style strictuml
 skinparam PackageStyle rectangle
 
 
@@ -20,7 +20,7 @@ rectangle "Online Car Rental Management System" as System {
     usecase "Cancel Reservation" as Cancel
     usecase "Report Incident" as ReportIncident
 
-Pay ..> Reserve : <<extend>>
+Pay .right.> Reserve : <<extend>>
 note as N
     Condition:
         Prepay selected
@@ -35,7 +35,7 @@ end note
 Customer -- Reserve
 
 Customer -- Pay
-Pay -- PaymentServiceProvider
+Pay --- PaymentServiceProvider
 
 Customer -- Pickup
 
@@ -46,10 +46,10 @@ Customer -- ReportIncident
 Customer -- Cancel
 
 Customer -- ManageIncident
-ManageIncident -- HotlineOperator
+ManageIncident --- HotlineOperator
 
-Pickup -- AgencyEmployee
-Return -- AgencyEmployee
+Pickup --- AgencyEmployee
+Return --- AgencyEmployee
 
 
 
