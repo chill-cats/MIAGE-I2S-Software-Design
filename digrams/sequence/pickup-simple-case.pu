@@ -1,0 +1,34 @@
+@startuml pickup
+skinparam sequenceMessageAlign center
+actor Customer as cust
+actor Employee as emp
+
+participant ":System" as sys
+
+activate emp
+activate cust
+cust -> emp: request for car
+emp -> sys: lookup reservation(customer details)
+activate sys
+sys --> emp: reservation details
+emp -> sys: query available car(car type)
+sys --> emp: list of car
+emp -> sys: select car
+emp -> cust: request driver license
+cust --> emp: driver license
+emp -> sys: scan the driver license
+sys --> emp: driver license is valid?
+cust <- emp: request car inspection
+emp <-- cust: car inspection result
+emp -> cust: request signing the result
+cust --> emp: signed result
+emp -> sys: record inspection result
+sys --> emp: record result
+deactivate sys
+emp --> cust:  the car
+deactivate emp
+
+
+
+hide footbox
+@enduml
