@@ -28,7 +28,7 @@ class CarType {
     - name : String
     - typicalPassengerCount : Integer
     - typicalWindowCount : Integer
-    - gearBox: String
+    - gearBox: GearboxType
     - typicalCar : String
 }
 
@@ -109,6 +109,11 @@ enum InspectionType {
 enum IncidentType {
   ACCIDENT
   BREAKDOWN
+}
+
+enum GearboxType {
+    AUTOMATIC
+    MANUAL
 }
 
 Customer "0..*" -- "1" Address : lives at
