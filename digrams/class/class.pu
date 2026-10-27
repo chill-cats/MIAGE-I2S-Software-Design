@@ -1,0 +1,133 @@
+@startuml class
+
+' !theme plain
+
+class Customer {
+    - email : String
+    - firstName : String
+    - lastName : String 
+}
+
+class Address {
+    - street : String
+    - city : String
+    - country : String
+    - zipCode : String
+}
+
+class DriverLicense {
+    - scan : URL
+}
+
+' class Agency {
+'     - name : String
+' }
+
+class CarType {
+    - description : String
+    - name : String
+    - typicalPassengerCount : Integer
+    - typicalWindowCount : Integer
+    - gearBox: String
+    - typicalCar : String
+}
+
+class Car {
+    - brand : String
+    - color : String
+    - licensePlateNumber : String
+}
+
+class Reservation {
+    - pickupDateTime : DateTime
+    - returnDateTime : DateTime
+    - paymentOption : PaymentOption
+    - status : ReservationStatus
+    - price : Decimal
+}
+
+
+class Insurance {
+    - name : String
+    - pricePerDay : Decimal
+}
+
+class ExtraOption {
+    - name : String
+    - price : Decimal
+    - picture: URL
+}
+
+class Payment {
+    - amount : Decimal
+    - dateTime: DateTime [0..1]
+    - purpose : PaymentPurpose
+}
+
+class Rental {
+    - pickupDateTime : DateTime
+    - returnDateTime : DateTime
+    - returnMileage : Integer [0..1]
+}
+
+class VehicleInspection {
+    - inspectionType : InspectionType
+    - condition : String
+    - dateTime : DateTime
+    - customerSignature : Binary [0..1]
+}
+
+class Incident {
+    - incidentType : IncidentType
+    - location : String
+    - occurredAt : DateTime
+    - circumstances : String
+    - photos : URI [0..*]
+}
+
+enum ReservationStatus {
+    CONFIRMED
+    CANCELLED
+    COMPLETED
+}
+
+enum PaymentOption {
+    PREPAY
+    PAY_AT_PICKUP
+}
+
+enum PaymentPurpose {
+    RENTAL_CHARGE
+    CANCELLATION_FEE
+}
+
+enum InspectionType {
+    PICKUP
+    RETURN
+}
+
+enum IncidentType {
+  ACCIDENT
+  BREAKDOWN
+}
+
+Customer "0..*" -- "1" Address : lives at
+Customer "1" -- "0..*" Reservation : makes
+
+Reservation "0..*" -- "1" CarType : selects
+Reservation "1" -- "0..1" Rental : results in
+Reservation "0..*" -- "1" Address : pickup and return location
+Reservation "0..*" -- "0..*" Insurance : coverage
+Reservation "0..*" -- "0..*" ExtraOption : selects
+Reservation "1" -- "0..*" Payment : payments
+
+Rental "1" -- "0..2" VehicleInspection : inspections
+Rental "1" -- "0..*" Incident : incidents
+
+Car "1" -- "0..*" Rental : allocated vehicle
+CarType "1" -- "0..*" Car : classifies
+
+
+
+
+@enduml

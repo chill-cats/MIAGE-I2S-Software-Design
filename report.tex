@@ -4,9 +4,15 @@
 \usepackage{graphicx}
 \usepackage{geometry}
 \usepackage[output=latex]{plantuml}
+% PlantUML's TikZ boxes assume 10pt text; do not inherit the report's 12pt.
+\renewcommand{\PlantUmlTikzFont}{\sffamily\fontsize{10}{12}\selectfont}
 \geometry{hmargin=2.5cm,vmargin=2.5cm}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{float}
 
 \begin{document}
 
@@ -39,7 +45,7 @@
     \begin{minipage}{0.4\textwidth}
         \textbf{Group member :} \\
         Nguyen Hoang Nhan \textsc{LE} \\
-        Quynh Anh \textsc{HOANG}
+        Hanane \textsc{ELOUCHEFOUNE}
     \end{minipage}
     \hfill
     \begin{minipage}{0.4\textwidth}
@@ -49,7 +55,7 @@
     \end{minipage}
     
     \vfill
-    {\large Date de soutenance : DD/MM/YYYY}
+    {\large Date de soutenance : 30/10/2026}
 \end{titlepage}
 \hypersetup{pageanchor=true}
 
@@ -60,17 +66,135 @@
 
 % --- PRELIMINARY PAGES ---
 \tableofcontents
+\listoffigures
+\listoftables
 \clearpage
 
 % --- MAIN CONTENT ---
 \chapter{Usecase Digrams}
-\section{Overall usecase}
+\section{Indicate usecases and actors}
+From the description of the application, we have already defined the main actors
+of our application.
+\begin{table}[h]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \textbf{Actors} & \textbf{Reason} \\
+        \hline
+        Customer & As mentioned in the assignment: ``...customer starts a reservation by mentioning where they want to pick up the car...'' \\
+        % \hline
+        % Payment Service Provider & Hanlding payment by credit card is a
+        % quite sensitive operation, website usually offload these task to a third party provider specialized in
+        % payment processing. \\
+        \hline
+        Agency Employee & As mentioned in the assingment: ``Based on the
+    chosen category, the agency employee will allocate a specific car to the customer.'' \\
+        \hline
+        Hotline Operator & As metioned in the assignment: ``The 24/7 hotline will contact her back and organize with her the repairing actions'' \\
+        \hline
+    \end{tabularx}
+    \caption{Actors in system}
+\end{table}
+
+These actors with participate in several usecase:
+
 \begin{center}
-\plantumlinput{digrams/usecase/usecase.pu}
+\begin{table}[h]
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        \textbf{Usecase} & \textbf{Participation} \\
+        \hline
+        Make reservation & Customer \\
+        \hline
+        Pay for reservation & Customer\\
+        \hline
+        Cancel reservation & Customer \\
+        \hline
+        Pickup car & Customer, Agency Employee \\
+        \hline
+        Return car & Customer, Agency Employee \\
+        \hline
+        Manage incident & Customer, Hotline Operator \\
+        \hline
+        Report incident & Customer \\
+        \hline
+    \end{tabularx}
+\caption{List of usecases and their participations}
+\end{table}
 \end{center}
+\section{Usecases details}
+\subsection{Make reservation}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|}
+        \hline
+        Name: & Make Reservation \\
+        \hline
+        Short description: & A customer reserve a car from the website of the company\\
+        \hline
+        Precondition: & \\
+        \hline
+        Postcondition: & A car reservation is made. \\
+        \hline
+        Error situations: & \\
+        \hline
+        System state in the event of an error: & \\
+        \hline
+        Actors: & Customer \\
+        \hline
+        Trigger: & Customer wanting to rent a car. \\
+        \hline
+        Standard process: & \begin{enumerate}[nosep, leftmargin=*,label=(\arabic*)]
+            \item Customer go to the website
+            \item Customer select the pickup location of the car
+            \item Customer select the pickup and return date of the car
+            \item Customer select the model of the car
+            \item Customer choose soome extra insurances
+            \item Customer choose extra options
+            \item Customer recieve extra 
+        \end{enumerate} \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+\subsection{Pay for reservation}
+\subsection{Cancel reservation}
+\subsection{Pickup car}
+\subsection{Manage incident}
+\subsection{Report incident}
+
+\clearpage
+\section{Usecase diagram}
+
+\begin{center}
+% Reserve space for the section heading and keep the caption outside scaling.
+\begin{adjustbox}{max totalsize={\linewidth}{0.8\textheight}}
+\plantumlinput{digrams/usecase/usecase.pu}
+\end{adjustbox}
+\captionof{figure}{General usecase diagram}
+\label{fig:usecase-diagram}
+\end{center}
+
 \section{Detail of use cases associated to the action "pick up car"}
+
+\begin{center}
+    \plantumlinput{digrams/sequence/pickup.pu}
+\end{center}
+
 \chapter{Class Diagram}
+\begin{center}
+% Fit both dimensions, leaving room for the chapter heading and caption.
+\begin{adjustbox}{max totalsize={\linewidth}{0.72\textheight}}
+\plantumlinput{digrams/class/class.pu}
+\end{adjustbox}
+\captionof{figure}{Class diagram}
+\label{fig:class-diagram}
+\end{center}
 \chapter{Sequence Diagram}
 \section{Reservation action}
-
+\begin{align}
+    h_\theta(x) = \theta^{T}X \\
+    \text{ProbabilityOfClass}_1 = P(Y = 1 | X) = \sigma(\theta^TX) = \frac{e^{\theta^T X}}{1 + e^{\theta^{T} X}}
+\end{align}
 \end{document}
