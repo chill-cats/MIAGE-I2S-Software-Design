@@ -1,0 +1,29 @@
+@startsalt pickup-handover
+{+
+    <b>CAR RENTAL | Agency employee
+    --
+    <b>Pick up car - Ready for key handover
+    RES-001 - Alex Martin
+    .
+    {^"Allocated car"
+        Brand / model | Renault Clio
+        Colour | Blue
+        Licence plate | AB-123-CD
+        Category | Compact
+        Return | 30/10/2026 at 10:00 - Toulouse agency
+    }
+    .
+    {^"Pickup checks complete"
+        [X] Car allocation confirmed
+        [X] Driving licence checked and scan stored
+        [X] Joint inspection recorded
+        [X] Customer digital signature stored
+        [X] Payment settled - EUR 120.00 paid
+        Amount remaining | EUR 0.00
+    }
+    .
+    Hand over the keys to the customer.
+    --
+    [ [[latex://fig:lofi-ui-main Return to reservation search]] ]
+}
+@endsalt

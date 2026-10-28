@@ -1,0 +1,27 @@
+@startsalt pickup-payment
+{+
+    <b>CAR RENTAL | Agency employee
+    --
+    <b>Pick up car - Payment
+    RES-001 - Alex Martin - AB-123-CD
+    .
+    {^"Reservation payment"
+        Payment option | Pay at pickup
+        Total price | EUR 120.00
+        Amount already paid | EUR 0.00
+        <b>Amount to collect | <b>EUR 120.00
+    }
+    .
+    {^"Record payment received"
+        Collect payment before recording it in the system.
+        Payment reference | "PAY-001                      "
+        [X] Payment of EUR 120.00 received
+        [ [[latex://fig:lofi-ui-handover Record payment and continue]] ]
+    }
+    .
+    If payment fails, remain here and retry before handing over keys.
+    For a prepaid reservation with no balance due, skip this screen.
+    --
+    [ [[latex://fig:lofi-ui-inspection Back]] ]
+}
+@endsalt

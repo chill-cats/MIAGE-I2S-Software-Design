@@ -1,0 +1,30 @@
+@startsalt pickup-inspection
+{+
+    <b>CAR RENTAL | Agency employee
+    --
+    <b>Pick up car - Joint inspection
+    RES-001 - Alex Martin - AB-123-CD
+    .
+    {^"Car condition"
+        Inspect the car together with the customer.
+        (X) No damage found | () Damage found
+        Observations | "No visible damage.                    "
+        . | "                                      "
+    }
+    .
+    {^"Customer digital signature"
+        I confirm the car condition recorded above.
+        {+
+            .
+            Alex Martin - sign here
+            .
+        }
+        [Clear signature]
+    }
+    .
+    Record both the evaluation and the customer's signature.
+    Changes to the evaluation require a new signature.
+    --
+    [ [[latex://fig:lofi-ui-driving-licence Back]] ] | [ [[latex://fig:lofi-ui-payment Save inspection and continue]] ]
+}
+@endsalt

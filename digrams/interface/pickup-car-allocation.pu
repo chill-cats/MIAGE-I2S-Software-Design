@@ -1,0 +1,27 @@
+@startsalt pickup-car-allocation
+{+
+    <b>CAR RENTAL | Agency employee
+    --
+    <b>Pick up car - Allocate a car
+    RES-001 - Alex Martin - Compact
+    .
+    {^"Available cars - Toulouse agency"
+        {#
+            <b>Select | <b>Brand / model | <b>Colour | <b>Licence plate | <b>Category
+            (X) | Renault Clio | Blue | AB-123-CD | Compact
+            () | Peugeot 208 | White | EF-456-GH | Compact
+        }
+        [Refresh availability]
+    }
+    .
+    {^"Selected car"
+        Renault Clio | Blue | AB-123-CD
+        Allocate this car to reservation RES-001.
+    }
+    .
+    If no car is available, refresh or return to the reservation.
+    Continue only after the allocation is confirmed.
+    --
+    [ [[latex://fig:lofi-ui-reservation-details Back]] ] | [ [[latex://fig:lofi-ui-driving-licence Allocate and continue]] ]
+}
+@endsalt

@@ -29,7 +29,7 @@ emp -> sys: check payment option of reservation
 sys --> emp: reservation's payment option
 deactivate sys
 opt payment option = pay at pickup
-    emp -> cust: request payment
+    emp -> cust: request payment(paymentAmmount)
     cust --> emp: payment
     emp -> sys: record payment
     activate sys

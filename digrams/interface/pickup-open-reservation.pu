@@ -1,0 +1,36 @@
+@startsalt pickup-reservation-details
+{+
+    <b>CAR RENTAL | Agency employee
+    --
+    <b>Pick up car - Reservation details
+    Review the booking and find an available car.
+    .
+    {^"Reservation RES-001"
+        Status | Confirmed
+        Customer | Alex Martin
+        Email | alex.martin@example.com
+        Car category | Compact
+        Pickup | 28/10/2026 at 10:00
+        Return | 30/10/2026 at 10:00
+        Pickup / return location | Toulouse agency
+    }
+    .
+    {^"Options and payment"
+        Insurance | Standard coverage
+        Extra options | None
+        Payment option | Pay at pickup
+        Total price | EUR 120.00
+        Amount paid | EUR 0.00
+        Amount due at pickup | EUR 120.00
+    }
+    .
+    {^"Car allocation"
+        Allocated car | Not yet allocated
+        Find an available car in the Compact category.
+        [ [[latex://fig:lofi-ui-car-allocation Find available cars]] ]
+    }
+    .
+    --
+    [ [[latex://fig:lofi-ui-main Back to search]] ] | [Cancel pickup]
+}
+@endsalt

@@ -8,6 +8,7 @@
 \renewcommand{\PlantUmlTikzFont}{\sffamily\fontsize{10}{12}\selectfont}
 \geometry{hmargin=2.5cm,vmargin=2.5cm}
 \usepackage[hidelinks]{hyperref}
+\usepackage[figure]{hypcap}
 \usepackage{titlesec}
 \usepackage{tabularx}
 \usepackage{amsmath}
@@ -73,7 +74,7 @@
 % --- MAIN CONTENT ---
 \chapter{Usecase Digrams}
 \section{Indicate usecases and actors}
-From the description of the application, we have already defined the main actors
+From the description of the application, we defined the main actors
 of our application.
 \begin{table}[h]
     \centering
@@ -95,6 +96,14 @@ of our application.
     \end{tabularx}
     \caption{Actors in system}
 \end{table}
+
+\textbf{Design choices}: Each represent a role interacting with the system.
+We choosed to design the system with one Customer
+for the actors before and after signing in because the action of
+authentication change the customer's access to the system, not changing
+their role. Agency Employee represent the employee working at the agency
+location and handle pickup and return action. Hotline operator handle
+report and coordinate assistances following an incident.
 
 These actors with participate in several usecase:
 
@@ -131,31 +140,35 @@ These actors with participate in several usecase:
         \hline
         Name: & Make Reservation \\
         \hline
-        Short description: & A customer reserve a car from the website of the company\\
+        Short description: & A customer reserve a car from the website of the company. \\
         \hline
-        Precondition: & \\
+        Precondition: & None \\
         \hline
-        Postcondition: & A car reservation is made. \\
+        Postcondition: & A car booking is made; payment is completed for prepay. \\
         \hline
-        Error situations: & \\
+        Error situations: & None\\
         \hline
-        System state in the event of an error: & \\
+        System state in the event of an error: & No confirmed booking is created\\
         \hline
         Actors: & Customer \\
         \hline
         Trigger: & Customer wanting to rent a car. \\
         \hline
         Standard process: & \begin{enumerate}[nosep, leftmargin=*,label=(\arabic*)]
-            \item Customer go to the website
-            \item Customer select the pickup location of the car
-            \item Customer select the pickup and return date of the car
-            \item Customer select the model of the car
-            \item Customer choose soome extra insurances
-            \item Customer choose extra options
-            \item Customer recieve extra 
+            \item Customer goes to the website and starts a reservation.
+            \item Customer enters the pickup location and pickup and return date.
+            \item The system presents car category and their prepay and pay-later prices.
+            \item Customer select the car category.
+            \item Customer select the payment option.
+            \item Customer optionally choose soome extra insurances and options.
+            \item Customer signs in to continue the booking process.
+            \item Customer provides provides their email, first and last names, and address: street, city, country, and zip code.
+            \item If the customer has chose the prepay option, they then pay with credit card.
+            \item The system records and confirms the booking.
         \end{enumerate} \\
         \hline
     \end{tabularx}
+    \caption{Make reservation usecase details}
 \end{table}
 
 \subsection{Pay for reservation}
@@ -177,8 +190,9 @@ These actors with participate in several usecase:
 \end{center}
 
 \section{Detail of use cases associated to the action "pick up car"}
+\subsection{System sequence diagram}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{adjustbox}{
         max totalsize={\textwidth}{0.75\textheight},
@@ -187,6 +201,85 @@ These actors with participate in several usecase:
     \plantumlinput{digrams/sequence/pickup-with-condition.pu}
     \end{adjustbox}
     \caption{}
+\end{figure}
+
+\subsection{Lo-Fi interface}
+The following screens follow the pickup sequence: find a reservation,
+review its details, allocate a car from the booked category, check and scan
+the driving licence, and record the joint inspection with the customer's
+digital signature. The examples use reservation RES-001 throughout.
+The payment screen applies only to pay-at-pickup reservations; after saving
+the inspection, a prepaid reservation with no balance due proceeds directly
+to the key-handover screen. Navigation buttons link to the corresponding
+figures in this PDF; they illustrate the workflow rather than execute it.
+Each save action must succeed before the employee continues, and the keys
+are handed over only after all checks and payment are complete.
+\begin{figure}[H]
+    \centering
+    \begin{adjustbox}{
+        max totalsize={\textwidth}{0.75\textheight},
+        center
+    }
+    \plantumlinput{"digrams/interface/pickup-main.pu"}
+    \end{adjustbox}
+    \caption{Main screen of Lo-fi inteface for pickup action}
+    \label{fig:lofi-ui-main}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{adjustbox}{
+        max totalsize={\textwidth}{0.75\textheight},
+        center
+    }
+    \plantumlinput{"digrams/interface/pickup-open-reservation.pu"}
+    \end{adjustbox}
+    \caption{Reservation details for the pickup action}
+    \label{fig:lofi-ui-reservation-details}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{adjustbox}{max totalsize={\textwidth}{0.75\textheight},center}
+    \plantumlinput{"digrams/interface/pickup-car-allocation.pu"}
+    \end{adjustbox}
+    \caption{Select and allocate an available car in the booked category}
+    \label{fig:lofi-ui-car-allocation}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{adjustbox}{max totalsize={\textwidth}{0.75\textheight},center}
+    \plantumlinput{"digrams/interface/pickup-driving-licence.pu"}
+    \end{adjustbox}
+    \caption{Check the driving licence and store its scan}
+    \label{fig:lofi-ui-driving-licence}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{adjustbox}{max totalsize={\textwidth}{0.75\textheight},center}
+    \plantumlinput{"digrams/interface/pickup-inspection.pu"}
+    \end{adjustbox}
+    \caption{Record the joint inspection and the customer's digital signature}
+    \label{fig:lofi-ui-inspection}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{adjustbox}{max totalsize={\textwidth}{0.75\textheight},center}
+    \plantumlinput{"digrams/interface/pickup-payment.pu"}
+    \end{adjustbox}
+    \caption{Record payment for a pay-at-pickup reservation}
+    \label{fig:lofi-ui-payment}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{adjustbox}{max totalsize={\textwidth}{0.75\textheight},center}
+    \plantumlinput{"digrams/interface/pickup-handover.pu"}
+    \end{adjustbox}
+    \caption{Review completed checks before handing over the keys}
+    \label{fig:lofi-ui-handover}
 \end{figure}
 
 \chapter{Class Diagram}

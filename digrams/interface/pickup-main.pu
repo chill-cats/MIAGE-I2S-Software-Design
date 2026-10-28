@@ -1,0 +1,25 @@
+@startsalt pickup-lofi-ui
+{+
+    <b>CAR RENTAL | Agency employee
+    --
+    <b>Pick up car - Find reservation
+    Search for the customer, then open their reservation.
+    .
+    {^"Customer details"
+        Customer name | "Martin                         " | [Search]
+    }
+    .
+    {^"Search results - showing 2 reservations"
+        {#
+            <b>Reservation | <b>Customer name | <b>Car category | <b>Pickup date | <b>Action
+            RES-001 | Alex Martin | Compact | 28/10/2026 | [ [[latex://fig:lofi-ui-reservation-details Open reservation]] ]
+            RES-002 | Sam Martin | SUV | 28/10/2026 | [ [[latex://fig:lofi-ui-reservation-details Open reservation]] ]
+        }
+        [Show more]
+    }
+    .
+    Open a reservation to review its details and allocate a car.
+    --
+    [Cancel pickup] | .
+}
+@endsalt

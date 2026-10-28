@@ -1,0 +1,25 @@
+@startsalt pickup-driving-licence
+{+
+    <b>CAR RENTAL | Agency employee
+    --
+    <b>Pick up car - Driving licence
+    RES-001 - Alex Martin - AB-123-CD
+    .
+    {^"Check the original document"
+        [X] Customer identity matches the driving licence
+        [X] Driving licence is valid for the allocated car
+    }
+    .
+    {^"Scan the driving licence"
+        [Scan licence] | [Upload scan]
+        Selected file | alex-martin-licence.pdf
+        Preview | Driving licence scan
+        [Replace scan]
+    }
+    .
+    Save the scan before proceeding to the joint car inspection.
+    If the licence is invalid or the scan fails, do not continue.
+    --
+    [ [[latex://fig:lofi-ui-car-allocation Back]] ] | [ [[latex://fig:lofi-ui-inspection Save scan and continue]] ]
+}
+@endsalt
