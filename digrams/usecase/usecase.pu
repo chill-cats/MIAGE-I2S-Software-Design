@@ -1,9 +1,13 @@
 @startuml usecase
-allowmixing
 left to right direction
 skinparam style strictuml
 skinparam PackageStyle rectangle
-
+skinparam shadowing false
+skinparam nodesep 35
+skinparam ranksep 55
+skinparam defaultFontSize 13
+skinparam ArrowFontSize 11
+skinparam NoteFontSize 11
 
 actor "Customer" as Customer
 actor "Agency Employee" as AgencyEmployee
@@ -11,57 +15,47 @@ actor "Hotline Operator" as HotlineOperator
 ' actor "Payment Service Provider" as PaymentServiceProvider
 
 rectangle "Online Car Rental Management System" as System {
-    usecase "Pay" as Pay
+    ' Keep the customer goals in a single, ordered column.
     usecase "Make Reservation" as Reserve
-
+    usecase "Cancel Reservation" as Cancel
     usecase "Pickup Car" as Pickup
     usecase "Return Car" as Return
-    usecase "Manage Incident" as ManageIncident
-    usecase "Cancel Reservation" as Cancel
     usecase "Report Incident" as ReportIncident
+    usecase "Manage Incident" as ManageIncident
+    usecase "Pay" as Pay
 
-Pay .right.> Reserve : <<extend>>
-note as N1
-    Condition:
-        Prepay selected
-    Extension point:
-        Complete booking
-end note
+    Reserve -[hidden]right-> Cancel
+    Cancel -[hidden]right-> Pickup
+    Pickup -[hidden]right-> Return
+    Return -[hidden]right-> ReportIncident
+    ReportIncident -[hidden]right-> ManageIncident
 
-(Pay, Reserve) .. N1
+    ' Put the shared payment extension beside the booking/pickup goals.
+    Pay .up.> Reserve : <<extend>>\n[Prepay selected]
+    Pay .up.> Cancel : <<extend>>\n[Prepay selected]
+    Pay .up.> Pickup : <<extend>>\n[Prepay not selected]
 
-Pay .left.> Cancel : <<extend>>
-note as N2
-    Condition:
-        Prepay selected
-    Extension point:
-        Complete booking
-end note
-(Pay, Cancel) ..N2
 }
 
-
 Customer -- Reserve
-
+Customer -- Cancel
+Customer -- Pickup
+Customer -- Return
+Customer -- ReportIncident
+Customer -- ManageIncident
 Customer -- Pay
 ' Pay --- PaymentServiceProvider
 
-Customer -- Pickup
+Pickup -- AgencyEmployee
+Return -- AgencyEmployee
+ManageIncident -- HotlineOperator
+Pay -[hidden]down-> AgencyEmployee
+AgencyEmployee -[hidden]right-> HotlineOperator
 
-Customer -- Return
-
-Customer -- ReportIncident
-
-Customer -- Cancel
-
-Customer -- ManageIncident
-ManageIncident --- HotlineOperator
-
-Pickup --- AgencyEmployee
-Return --- AgencyEmployee
-
-
-
-
-
+legend bottom left
+  Extension points:
+  Make Reservation: Complete booking
+  Cancel Reservation: Settle cancellation fee
+  Pickup Car: Settle rental payment
+endlegend
 @enduml

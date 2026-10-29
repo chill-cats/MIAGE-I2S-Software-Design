@@ -1,0 +1,8 @@
+@startuml reservation
+
+
+actor Customer
+participant Reservation
+
+hide footbox
+@enduml

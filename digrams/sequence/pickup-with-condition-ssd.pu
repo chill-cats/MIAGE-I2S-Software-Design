@@ -1,0 +1,33 @@
+@startuml pickup_with_condition_ssd
+skinparam sequenceMessageAlign center
+
+actor Employee as emp
+participant ":System" as sys
+
+emp -> sys: lookupReservation(customerDetails)
+sys --> emp: reservationDetails
+
+emp -> sys: queryAvailableCars(carType)
+sys --> emp: availableCars
+
+emp -> sys: allocateCar(reservation, car)
+sys --> emp: allocationResult
+
+emp -> sys: storeDrivingLicenceScan(reservation, scan)
+sys --> emp: scanStored
+
+emp -> sys: recordInspection(reservation, inspectionResult, digitalSignature)
+sys --> emp: inspectionRecorded
+
+emp -> sys: checkPaymentOption(reservation)
+sys --> emp: paymentOption
+
+opt [paymentOption = payAtPickup]
+    emp -> sys: recordPayment(reservation, amount)
+    sys --> emp: paymentRecorded
+end
+
+' emp -> sys: finalizeProcess()
+' sys --> emp: finalizationResult
+hide footbox
+@enduml

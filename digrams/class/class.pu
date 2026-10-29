@@ -1,6 +1,6 @@
 @startuml class
 
-' !theme plain
+!theme plain
 
 class Customer {
     - email : String
@@ -64,6 +64,16 @@ class Payment {
     - purpose : PaymentPurpose
 }
 
+' class Prepay {
+'     - payByCreditCard()
+' }
+
+' class PayLater {
+' }
+
+' Payment <|-- Prepay
+' Payment <|-- PayLater
+
 class Rental {
     - pickupDateTime : DateTime
     - returnDateTime : DateTime
@@ -118,6 +128,7 @@ enum GearboxType {
 
 Customer "0..*" -- "1" Address : lives at
 Customer "1" -- "0..*" Reservation : makes
+Customer "1" -- "0..1" DriverLicense : possesses
 
 Reservation "0..*" -- "1" CarType : selects
 Reservation "1" -- "0..1" Rental : results in
@@ -130,7 +141,7 @@ Rental "1" -- "0..2" VehicleInspection : inspections
 Rental "1" -- "0..*" Incident : incidents
 
 Car "1" -- "0..*" Rental : allocated vehicle
-CarType "1" -- "0..*" Car : classifies
+CarType "1" -- "0..*\n" Car : classifies \n
 
 
 

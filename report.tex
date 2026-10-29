@@ -115,7 +115,7 @@ These actors with participate in several usecase:
         \hline
         Make reservation & Customer \\
         \hline
-        Pay for reservation & Customer\\
+        Pay & Customer\\
         \hline
         Cancel reservation & Customer \\
         \hline
@@ -131,51 +131,88 @@ These actors with participate in several usecase:
 \caption{List of usecases and their participations}
 \end{table}
 \end{center}
-\section{Usecases details}
-\subsection{Make reservation}
+% \section{Usecases details}
+% \subsection{Make reservation}
 
-\begin{table}[H]
-    \centering
-    \begin{tabularx}{\textwidth}{|l|X|}
-        \hline
-        Name: & Make Reservation \\
-        \hline
-        Short description: & A customer reserve a car from the website of the company. \\
-        \hline
-        Precondition: & None \\
-        \hline
-        Postcondition: & A car booking is made; payment is completed for prepay. \\
-        \hline
-        Error situations: & None\\
-        \hline
-        System state in the event of an error: & No confirmed booking is created\\
-        \hline
-        Actors: & Customer \\
-        \hline
-        Trigger: & Customer wanting to rent a car. \\
-        \hline
-        Standard process: & \begin{enumerate}[nosep, leftmargin=*,label=(\arabic*)]
-            \item Customer goes to the website and starts a reservation.
-            \item Customer enters the pickup location and pickup and return date.
-            \item The system presents car category and their prepay and pay-later prices.
-            \item Customer select the car category.
-            \item Customer select the payment option.
-            \item Customer optionally choose soome extra insurances and options.
-            \item Customer signs in to continue the booking process.
-            \item Customer provides provides their email, first and last names, and address: street, city, country, and zip code.
-            \item If the customer has chose the prepay option, they then pay with credit card.
-            \item The system records and confirms the booking.
-        \end{enumerate} \\
-        \hline
-    \end{tabularx}
-    \caption{Make reservation usecase details}
-\end{table}
+% \begin{table}[H]
+%     \centering
+%     \begin{tabularx}{\textwidth}{|l|X|}
+%         \hline
+%         Name: & Make Reservation \\
+%         \hline
+%         Short description: & A customer reserve a car from the website of the company. \\
+%         \hline
+%         Precondition: & None \\
+%         \hline
+%         Postcondition: & A car booking is made; payment is completed for prepay. \\
+%         \hline
+%         Error situations: & None\\
+%         \hline
+%         System state in the event of an error: & No confirmed booking is created\\
+%         \hline
+%         Actors: & Customer \\
+%         \hline
+%         Trigger: & Customer wanting to rent a car. \\
+%         \hline
+%         Standard process: & \begin{enumerate}[nosep, leftmargin=*,label=(\arabic*)]
+%             \item Customer goes to the website and starts a reservation.
+%             \item Customer enters the pickup location and pickup and return date.
+%             \item The system presents car category and their prepay and pay-later prices.
+%             \item Customer select the car category.
+%             \item Customer select the payment option.
+%             \item Customer optionally choose soome extra insurances and options.
+%             \item Customer signs in to continue the booking process.
+%             \item Customer provides provides their email, first and last names, and address: street, city, country, and zip code.
+%             \item If the customer has chose the prepay option, they then pay with credit card.
+%             \item The system records and confirms the booking.
+%         \end{enumerate} \\
+%         \hline
+%     \end{tabularx}
+%     \caption{Make reservation usecase details}
+% \end{table}
 
-\subsection{Pay for reservation}
-\subsection{Cancel reservation}
-\subsection{Pickup car}
-\subsection{Manage incident}
-\subsection{Report incident}
+% \subsection{Pay}
+% \begin{table}[H]
+%     \centering
+%     \begin{tabularx}{\textwidth}{|l|X|}
+%         \hline
+%         Name: & Pay \\
+%         \hline
+%         Short description: & A customer do a transaction to transfer an amount of money to the company \\
+%         \hline
+%         Precondition: & None \\
+%         \hline
+%         Postcondition: & The rental company recieves the money \\
+%         \hline
+%         Error situations: & None\\
+%         \hline
+%         System state in the event of an error: & No amount of money is subtract from the customer account.
+%         The company does not receive the money. \\
+%         \hline
+%         Actors: & Customer \\
+%         \hline
+%         Trigger: & Customer wanting to rent a car or canceling a prepaid reservation. \\
+%         \hline
+%         Standard process: & \begin{enumerate}[nosep, leftmargin=*,label=(\arabic*)]
+%             \item Customer goes to the website and starts a reservation.
+%             \item Customer enters the pickup location and pickup and return date.
+%             \item The system presents car category and their prepay and pay-later prices.
+%             \item Customer select the car category.
+%             \item Customer select the payment option.
+%             \item Customer optionally choose soome extra insurances and options.
+%             \item Customer signs in to continue the booking process.
+%             \item Customer provides provides their email, first and last names, and address: street, city, country, and zip code.
+%             \item If the customer has chose the prepay option, they then pay with credit card.
+%             \item The system records and confirms the booking.
+%         \end{enumerate} \\
+%         \hline
+%     \end{tabularx}
+%     \caption{Make reservation usecase details}
+% \end{table}
+% \subsection{Cancel reservation}
+% \subsection{Pickup car}
+% \subsection{Manage incident}
+% \subsection{Report incident}
 
 \clearpage
 \section{Usecase diagram}
@@ -198,22 +235,23 @@ These actors with participate in several usecase:
         max totalsize={\textwidth}{0.75\textheight},
         center
     }
-    \plantumlinput{digrams/sequence/pickup-with-condition.pu}
+    \plantumlinput{digrams/sequence/pickup-with-condition-ssd.pu}
     \end{adjustbox}
-    \caption{}
+    \caption{System sequence diagram for pickup car action}
 \end{figure}
 
 \subsection{Lo-Fi interface}
-The following screens follow the pickup sequence: find a reservation,
-review its details, allocate a car from the booked category, check and scan
-the driving licence, and record the joint inspection with the customer's
-digital signature. The examples use reservation RES-001 throughout.
-The payment screen applies only to pay-at-pickup reservations; after saving
-the inspection, a prepaid reservation with no balance due proceeds directly
-to the key-handover screen. Navigation buttons link to the corresponding
-figures in this PDF; they illustrate the workflow rather than execute it.
-Each save action must succeed before the employee continues, and the keys
-are handed over only after all checks and payment are complete.
+We have designed a lo-fi interface serving the pickup action. The activities follow the sequence:
+find reservation,
+review it details,
+allocate a car from the booked category,
+check and scan the driver license,
+record inspection result with customer's digital signature.
+
+You can click on the navigation button link the the corresponding figures in this PDF that help 
+illustrate the workflow steps. Every actions must succeed before going to the next step and the
+key is only handed out after all checks and payment are complete.
+
 \begin{figure}[H]
     \centering
     \begin{adjustbox}{
@@ -283,18 +321,28 @@ are handed over only after all checks and payment are complete.
 \end{figure}
 
 \chapter{Class Diagram}
-\begin{center}
-% Fit both dimensions, leaving room for the chapter heading and caption.
-\begin{adjustbox}{max totalsize={\linewidth}{0.72\textheight}}
-\plantumlinput{digrams/class/class.pu}
-\end{adjustbox}
-\captionof{figure}{Class diagram}
-\label{fig:class-diagram}
-\end{center}
+
+Class digram represents the main classes that is related to the primary business of the application.
+From the assignment text, we design the system with the following classes:
+\begin{itemize}
+    \item \textbf{Customer} class represent the 
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    % Fit both dimensions, leaving room for the chapter heading and caption.
+    % \begin{adjustbox}{max totalsize={\linewidth}{0.72\textheight}}
+    \plantumlinput{digrams/class/class.pu}
+    % \end{adjustbox}
+    \captionof{figure}{Class diagram}
+    \label{fig:class-diagram}
+\end{figure}
+
+
 \chapter{Sequence Diagram}
 \section{Reservation action}
-\begin{align}
-    h_\theta(x) = \theta^{T}X \\
-    \text{ProbabilityOfClass}_1 = P(Y = 1 | X) = \sigma(\theta^TX) = \frac{e^{\theta^T X}}{1 + e^{\theta^{T} X}}
-\end{align}
+\begin{figure}[H]
+    \centering
+    \plantumlinput{"digrams/sequence/reservation.pu"}
+    \caption{Sequence diagram for reservation}
+\end{figure}
 \end{document}
