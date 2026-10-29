@@ -1,7 +1,7 @@
 # MIAGE-I2S-Advanced-Database
 
 
-## Report build
+## Report build:
 
 Use the **pdfLaTeX + PlantUML** recipe in VS Code, or run from this directory:
 
