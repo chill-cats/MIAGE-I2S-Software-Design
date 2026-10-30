@@ -1,0 +1,36 @@
+@startuml
+' Reservation subdiagram
+title Describe reservation and calculate price
+autonumber
+hide footbox
+actor Customer as User
+control "controller : ReservationController" as Controller
+participant "category : CarType" as Category
+participant "insurance : Insurance" as Insurance
+participant "option : ExtraOption" as Option
+User -> Controller : searchOffers(location, dates)
+Controller -> Controller : findAvailableOffers(location, dates)
+note right of Controller : Availability and tariff lookup details omitted.
+Controller --> User : available offers
+User -> Controller : selectCategory(category)
+Controller -> Category : getDetails()
+Category --> Controller : category details
+Controller --> User : details, included coverage and available extras
+User -> Controller : selectExtras(insurances, options)
+loop Each additional insurance
+Controller -> Insurance : getPricePerDay()
+Insurance --> Controller : daily price
+end
+loop Each selected option
+Controller -> Option : getPrice()
+Option --> Controller : option price
+end
+User -> Controller : selectPaymentOption(paymentOption)
+Controller -> Controller : calculateQuote(selection, tariffs)
+Controller --> User : selection summary and quotedPrice
+note over Controller, Option
+Pricing and offer lookup are proposed responsibilities.
+Included insurance adds no extra charge.
+Prepay tariff is lower than pay-at-pickup.
+end note
+@enduml

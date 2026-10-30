@@ -1,0 +1,18 @@
+@startuml
+' Reservation subdiagram
+title Reservation overview
+autonumber
+hide footbox
+actor Customer as User
+control "controller : ReservationController" as Controller
+ref over User, Controller
+Describe reservation and calculate price
+end ref
+ref over User, Controller
+Identify customer
+end ref
+ref over User, Controller
+Finalize reservation
+end ref
+Controller --> User : booking confirmation
+@enduml

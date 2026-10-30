@@ -1,0 +1,20 @@
+@startuml
+' Reservation subdiagram
+title Identify customer
+autonumber
+hide footbox
+actor Customer as User
+control "controller : ReservationController" as Controller
+participant "customer : Customer" as Customer
+User -> Controller : signIn(credentials)
+Controller -> Controller : authenticate(credentials)
+note right of Controller
+Authentication infrastructure is omitted.
+On success, resolve the customer object.
+end note
+Controller --> User : sign-in successful
+User -> Controller : provideDetails(email, firstName,\nlastName, address)
+Controller -> Customer : updateDetails(email, firstName,\nlastName, address)
+Customer --> Controller : details updated
+Controller --> User : ready to confirm booking
+@enduml

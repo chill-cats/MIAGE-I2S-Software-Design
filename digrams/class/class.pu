@@ -1,11 +1,14 @@
 @startuml class
 
-!theme plain
+' !theme plain
 
 class Customer {
     - email : String
     - firstName : String
-    - lastName : String 
+    - lastName : String
+
+    + getReservation() : Reservation
+    + getDriverLicense() : DriverLicense
 }
 
 class Address {
@@ -30,6 +33,9 @@ class CarType {
     - typicalWindowCount : Integer
     - gearBox: GearboxType
     - typicalCar : String
+
+    + getDetails() :
+    + getCars() : Car[]
 }
 
 class Car {
@@ -38,12 +44,23 @@ class Car {
     - licensePlateNumber : String
 }
 
-class Reservation {
+abstract class Reservation {
     - pickupDateTime : DateTime
     - returnDateTime : DateTime
     - paymentOption : PaymentOption
     - status : ReservationStatus
     - price : Decimal
+
+    + {abstract} cancel() : void
+}
+
+class PrepaidReservation {
+    + calculateCancelationFee()
+    + cancel() : void
+}
+
+class PaylaterReservation {
+    + cancel() : void
 }
 
 
@@ -76,7 +93,7 @@ class Payment {
 
 class Rental {
     - pickupDateTime : DateTime
-    - returnDateTime : DateTime
+    - returnDateTime : DateTime [0..1]
     - returnMileage : Integer [0..1]
 }
 
@@ -92,7 +109,10 @@ class Incident {
     - location : String
     - occurredAt : DateTime
     - circumstances : String
-    - photos : URI [0..*]
+}
+
+class IncidentPhoto {
+    - photo : URI
 }
 
 enum ReservationStatus {
@@ -128,7 +148,7 @@ enum GearboxType {
 
 Customer "0..*" -- "1" Address : lives at
 Customer "1" -- "0..*" Reservation : makes
-Customer "1" -- "0..1" DriverLicense : possesses
+Customer "1" -- "0..*" DriverLicense : possesses
 
 Reservation "0..*" -- "1" CarType : selects
 Reservation "1" -- "0..1" Rental : results in
@@ -138,12 +158,15 @@ Reservation "0..*" -- "0..*" ExtraOption : selects
 Reservation "1" -- "0..*" Payment : payments
 
 Rental "1" -- "0..2" VehicleInspection : inspections
-Rental "1" -- "0..*" Incident : incidents
+Rental "1" *-- "0..*" Incident : incidents
+
+Incident "1" *-- "1..*" IncidentPhoto : has
 
 Car "1" -- "0..*" Rental : allocated vehicle
 CarType "1" -- "0..*\n" Car : classifies \n
 
-
+Reservation <|-- PaylaterReservation
+Reservation <|-- PrepaidReservation
 
 
 @enduml

@@ -1,8 +1,91 @@
-@startuml reservation
-
-
-actor Customer
-participant Reservation
-
+@startuml
+title Reservation - complete successful flow
+autonumber
 hide footbox
+
+actor "Customer (user)" as User
+control "controller : ReservationController" as Controller
+participant "pickupLocation : Address" as Location
+participant "category : CarType" as Category
+participant "insurance : Insurance" as Insurance
+participant "option : ExtraOption" as Option
+participant "customer : Customer" as Customer
+
+note over User, Customer
+  UI interactions are abstracted. This diagram shows the successful path.
+  Messages describe proposed operations; persistence and external services are omitted.
+end note
+
+group 1. Select location and dates
+    User -> Controller : searchOffers(location, pickupDate, returnDate)
+    Controller -> Location : getAddressDetails()
+    Location --> Controller : street, city, country, zipCode
+Controller -> Controller : findAvailableOffers(location, dates)
+note right of Controller : Availability and tariff lookup details omitted.
+    Controller --> User : available categories and prices
+end
+
+group 2. Select category and extras
+    User -> Controller : selectCategory(category)
+    Controller -> Category : getDetails()
+    Category --> Controller : name, capacity, gearbox, typicalCar
+Controller -> Controller : findCoverageAndExtras(category)
+    Controller --> User : category details, insurance and extra options
+    User -> Controller : selectExtras(insurances, options)
+    loop For each selected additional insurance
+        Controller -> Insurance : getPricePerDay()
+        Insurance --> Controller : pricePerDay
+    end
+    loop For each selected extra option
+        Controller -> Option : getPrice()
+        Option --> Controller : price
+    end
+    User -> Controller : selectPaymentOption(paymentOption)
+Controller -> Controller : calculateQuote(selection, tariffs)
+note right of Controller
+Included insurance adds no extra charge.
+Prepay tariff is lower than pay-at-pickup.
+end note
+    Controller --> User : quotedPrice and selection summary
+end
+
+group 3. Sign in and provide details
+User -> Controller : signIn(credentials)
+Controller -> Controller : authenticate(credentials)
+note right of Controller
+Authentication infrastructure is omitted.
+On success, resolve the customer object.
+end note
+Controller --> User : sign-in successful
+    User -> Controller : provideDetails(email, firstName, lastName, address)
+    Controller -> Customer : updateDetails(email, firstName, lastName, address)
+    Customer --> Controller : details updated
+end
+
+group 4. Confirm and book
+    User -> Controller : confirmBooking()
+Controller -> Controller : checkAndHoldAvailability(selection)
+note right of Controller : Successful availability check assumed.
+    alt paymentOption = PREPAY
+User -> Controller : submitPayment(paymentToken)
+Controller -> Controller : processPayment(quotedPrice, paymentToken)
+note right of Controller
+External payment integration is omitted.
+Continue only after verified payment success.
+end note
+        create participant "payment : Payment" as Payment
+        Controller -> Payment : <<create>>(quotedPrice, paymentDateTime, RENTAL_CHARGE)
+    else paymentOption = PAY_AT_PICKUP
+        note right of Controller : Payment is due at pickup; no Payment object yet.
+    end
+
+    create participant "reservation : Reservation" as Reservation
+    Controller -> Reservation : <<create>>(customer, location, category, dates,\ninsurances, options, paymentOption, quotedPrice, CONFIRMED)
+    opt paymentOption = PREPAY
+        Controller -> Reservation : addPayment(payment)
+    end
+    Reservation --> Controller : booking confirmation
+    Controller --> User : booking confirmed, summary and payment information
+end
+
 @enduml
