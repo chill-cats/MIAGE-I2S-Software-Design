@@ -6,17 +6,16 @@ hide footbox
 actor Customer as User
 control "controller : ReservationController" as Controller
 note over User, Controller
-Selection and quote are ready; customer is authenticated.
-This subdiagram shows the successful path.
+Selection and price are ready; customer is authenticated.
 end note
 User -> Controller : confirmBooking()
 Controller -> Controller : checkAndHoldAvailability(selection)
 note right of Controller : Successful availability check assumed.
 alt PREPAY
-User -> Controller : submitPayment(paymentToken)
-Controller -> Controller : processPayment(quotedPrice, paymentToken)
+User -> Controller : submitPayment(paymentInfo)
+Controller -> Controller : processPayment(quotedPrice, paymentInfo)
 note right of Controller
-External payment integration is omitted.
+We decided not to include infomration on payment processing
 Continue only after verified payment success.
 end note
 create participant "payment : Payment" as Payment
@@ -25,13 +24,17 @@ Controller -> Payment : <<create>>(quotedPrice, paidAt,\nRENTAL_CHARGE)
 else PAY_AT_PICKUP
 note right of Controller : No Payment object is created yet.
 end
-create participant "reservation : Reservation" as Reservation
-Controller -> Reservation : <<create>>(customer, location, category, dates,\ninsurances, options, paymentOption,\nquotedPrice, CONFIRMED)
-opt PREPAY
-Controller -> Reservation : addPayment(payment)
+alt PREPAY
+create participant "reservation : PrepaidReservation" as PrepaidReservation
+Controller -> PrepaidReservation : <<create>>(customer, location, category, dates,\ninsurances, options, paymentOption,\nquotedPrice, CONFIRMED)
+Controller -> PrepaidReservation : addPayment(payment)
+PrepaidReservation --> Controller : booking confirmation
+else
+create participant "reservation : PaylaterReservation" as PaylaterReservation
+Controller -> PaylaterReservation : <<create>>(customer, location, category, dates,\ninsurances, options, paymentOption,\nquotedPrice, CONFIRMED)
+PaylaterReservation --> Controller : booking confirmation
 end
-Reservation --> Controller : booking confirmation
 note over User, Controller
-The overview shows delivery of confirmation to the user.
+The overview diagram shows delivery of confirmation to the user.
 end note
 @enduml

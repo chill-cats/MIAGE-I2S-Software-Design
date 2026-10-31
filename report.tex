@@ -7,7 +7,11 @@
 % PlantUML's TikZ boxes assume 10pt text; do not inherit the report's 12pt.
 \renewcommand{\PlantUmlTikzFont}{\sffamily\fontsize{10}{12}\selectfont}
 \geometry{hmargin=2.5cm,vmargin=2.5cm}
-\usepackage[hidelinks]{hyperref}
+\usepackage[hidelinks,pdfusetitle]{hyperref}
+\hypersetup{
+    pdfsubject={Software Design},
+    pdfkeywords={}
+}
 \usepackage[figure]{hypcap}
 \usepackage{titlesec}
 \usepackage{tabularx}
@@ -18,7 +22,7 @@
 \begin{document}
 
 \title{Report \newline Software Design}
-\author{Nguyen Hoang Nhan LE \and Quynh Anh HOANG \and Hanane }
+\author{Nguyen Hoang Nhan LE \and Hanane ELOUCHEFOUNE }
 
 % --- CUSTOM UT CAPITOLE COVER PAGE ---
 \hypersetup{pageanchor=false}
@@ -75,13 +79,13 @@
 
 % --- MAIN CONTENT ---
 \chapter{Use Case Diagrams}
-\section{Identify use cases and actors}
+\section{Identification of use cases and actors}
 Based on the application description, we identified the following main actors.
 \begin{table}[h]
     \centering
     \begin{tabularx}{\textwidth}{|l|X|}
         \hline
-        \textbf{Actors} & \textbf{Reason} \\
+        \textbf{Actor} & \textbf{Justification} \\
         \hline
         Customer & As mentioned in the assignment: ``...customer starts a reservation by mentioning where they want to pick up the car...'' \\
         % \hline
@@ -132,25 +136,25 @@ These actors participate in the following use cases:
 \end{table}
 The \texttt{Make Reservation} use case covers selecting the pickup location, rental dates, car category, insurance and extra options. It also covers signing in and providing customer details before completing the booking. We keep these activities within one use case because they contribute to the same customer goal. We do not represent each form or selection as a separate use case.
 
-We separate \texttt{Pay} from the other use cases because payment can occur during reservation, cancellation or pickup. We use conditional extend relationships to show when payment is required. \texttt{Pay} extends \texttt{Make Reservation} when prepayment is selected. It extends \texttt{Cancel Reservation} when a prepaid reservation requires a cancellation fee. It extends \texttt{Pickup Car} when prepayment was not selected and the rental payment must be settled at the agency. 
+We separate \texttt{Pay} from the other use cases because payment can occur during reservation, cancellation or pickup. We use conditional \emph{extend} relationships to show when payment is required. \texttt{Pay} extends \texttt{Make Reservation} when prepayment is selected. It extends \texttt{Cancel Reservation} when a prepaid reservation requires a cancellation fee. It extends \texttt{Pickup Car} when prepayment was not selected and the rental payment must be settled at the agency.
 These extensions are conditional, but payment is required when the corresponding condition applies.
 
-The \texttt{Cancel Reservation} use case allows the customer to cancel an existing booking. We assume that the customer must sign in and identify their reservation before cancellation. Based on the requirement, a prepaid booking requires a cancellation fee. The cancellation payment therefore represents this fee rather than another payment of the full rental price.
+The \texttt{Cancel Reservation} use case allows the customer to cancel an existing booking. We assume that the customer must sign in and identify their reservation before cancellation. According to the assignment, cancelling a prepaid booking incurs a cancellation fee. The cancellation payment therefore represents this fee rather than another payment of the full rental price.
 
 The \texttt{Pickup Car} use case involves both the customer and the agency employee. It covers finding the reservation, allocating a car from the booked category, checking and scanning the driving licence,
-and recording the pickup inspection with the customer’s digital signature. Any required rental payment must also be completed before the keys are handed over.
+and recording the pickup inspection with the customer's digital signature. Any required rental payment must also be completed before the keys are handed over.
 We keep these checks within the pickup use case and describe them in more detail through the system sequence diagram and low-fidelity interfaces.
 
-The \texttt{Return Car} use case also involves the customer and the agency employee. The employee checks the car’s condition, records the mileage and return date and time, and obtains the customer’s signature on the evaluation.
+The \texttt{Return Car} use case also involves the customer and the agency employee. The employee checks the car's condition, records the mileage and the return date and time, and obtains the customer's signature on the evaluation.
 The car is returned to the pickup location, as required.
-We dont design additional charges for damage, fuel or late return are not included because it is not mentioned.
+We do not model additional charges for damage, fuel or late returns because they are not mentioned in the assignment.
 
 We separate \texttt{Report Incident} from \texttt{Manage Incident} because they have different goals.
-Reporting allows the customer to provide the location, date, time, circumstances and optional photos of an accident or breakdown.
+Reporting requires the customer to provide the location, date, time and circumstances of an accident or breakdown, together with at least one photo.
 Managing the incident covers the follow-up between the hotline operator and the customer to organise assistance.
 This separation allows the report to be recorded before the hotline begins its response.
 
-We decided to treat signing in operation is treated as part of the relevant actions or as a precondition, rather than a separate customer goal because it is not a real business usecase and is not related to rental.
+We treat signing in as part of the relevant use cases or as a precondition because authentication supports the rental process without constituting a separate business goal.
 % \section{Usecases details}
 % \subsection{Make reservation}
 
@@ -261,9 +265,9 @@ We decided to treat signing in operation is treated as part of the relevant acti
 \end{figure}
 
 \subsection{Low-fidelity interfaces}
-We have designed low-fidelity interfaces for the pickup action.
+We have designed low-fidelity interfaces for the pickup process.
 The activities follow this sequence: find the reservation, review its details, allocate a car from the booked category,
-check and scan the driving licence, and record the inspection result with the customer’s digital signature.
+check and scan the driving licence, and record the inspection results with the customer's digital signature.
 The navigation buttons link to the corresponding figures in this PDF to illustrate each step of the workflow.
 Each action must succeed before moving to the next step.
 The keys are handed over only after all checks and any required payment are complete.
@@ -276,7 +280,7 @@ The keys are handed over only after all checks and any required payment are comp
     }
     \plantumlinput{"digrams/interface/pickup-main.pu"}
     \end{adjustbox}
-    \caption{Main screen of the low-fidelity interface for the pickup action}
+    \caption{Main screen of the low-fidelity interface for the pickup process}
     \label{fig:lofi-ui-main}
 \end{figure}
 \begin{figure}[H]
@@ -287,7 +291,7 @@ The keys are handed over only after all checks and any required payment are comp
     }
     \plantumlinput{"digrams/interface/pickup-open-reservation.pu"}
     \end{adjustbox}
-    \caption{Reservation details for the pickup action}
+    \caption{Reservation details for the pickup process}
     \label{fig:lofi-ui-reservation-details}
 \end{figure}
 
@@ -341,23 +345,27 @@ The keys are handed over only after all checks and any required payment are comp
 
 We have designed the class diagram to represent the main business entities of the car rental application. The classes follow the rental process: the customer chooses a car category and extra services, makes a reservation, pays either in advance or at pickup, picks up a car, and returns it after use. The diagram focuses on the business information and relationships. Interface components and controllers are not included in this high-level view.
 
-The \texttt{Customer} class stores the email, first name and last name. We separate \texttt{Address} into another class to group the street, city, country and postal code. We assume that each customer has one recorded address, while several customers can share the same address. We also use \texttt{Address} to represent the pickup and return location instead of introducing a separate agency class. The customer’s home address and the rental location are different objects of the same class.
+The \texttt{Customer} class stores the customer's email address, first name and last name. We use a separate \texttt{Address} class to group the street, city, country and postal code. We assume that each customer has one recorded address, while several customers can share the same address. We also use \texttt{Address} to represent the pickup and return location instead of introducing a separate agency class. The customer's home address and the rental location are different objects of the same class.
 
-The \texttt{DriverLicense} class stores a link to the scanned driving licence. A customer can have zero or one recorded licence because the scan may not be available when the reservation is made. The employee checks and scans the licence during pickup. We assume that the system stores one relevant licence for each customer.
+The \texttt{DriverLicense} class stores a link to a scanned driving licence. A customer can have multiple recorded licences, each represented by a separate object. A customer may have no recorded licence when the reservation is made. The employee checks and scans the relevant licence during pickup.
 
-We separate \texttt{CarType} from \texttt{Car} because the customer books a category before a specific vehicle is allocated. \texttt{CarType} describes the category through its name, description, typical passenger and window counts, gearbox and example car. \texttt{Car} stores the brand, colour and licence plate number of an actual vehicle. Each car belongs to one category, and one category can contain several cars.
+We separate \texttt{CarType} from \texttt{Car} because the customer books a category before a specific vehicle is allocated. \texttt{CarType} describes the category through its name, description, typical numbers of passengers and windows, gearbox type and example car. \texttt{Car} stores the brand, colour and licence plate number of an actual vehicle. Each car belongs to one category, and one category can contain several cars.
+
+We model \texttt{Reservation} as an abstract class with two concrete subclasses. The \texttt{PrepaidReservation} subclass represents prepaid bookings, while \texttt{PaylaterReservation} represents bookings paid at pickup. They share attributes but differ in behaviour, particularly when a reservation is cancelled.
 
 We also separate \texttt{Reservation} from \texttt{Rental}. The reservation records the planned dates, payment option, status and agreed price. The rental records the actual pickup and return information, including the return mileage. A reservation can exist without a rental if the customer has not collected the car or has cancelled the booking. Each rental uses one specific car. The same car can be used for several rentals over time, but we assume that these rentals do not overlap.
 
 The \texttt{Insurance} and \texttt{ExtraOption} classes describe the services associated with a reservation. Insurance has a daily price, while an extra option has a price and a picture. We keep these classes separate because their information and pricing are different. The same insurance or option can be selected in several reservations. Included insurance should not add an extra charge, although the current diagram does not explicitly distinguish included coverage from additional coverage.
 
-The \texttt{Payment} class stores a payment's amount, time and purpose. The \texttt{PaymentOption} enumeration distinguishes prepayment from payment at pickup; we do not create separate payment subclasses. Both choices use the same payment information; the main differences are the payment time and pricing rules. A reservation can have several payments, for example a rental payment followed by a cancellation fee. It can also have no payment yet when payment at pickup is selected.
+The \texttt{Payment} class records each payment's amount, date, time and purpose. Payment options are represented by the \texttt{PaymentOption} enumeration, which distinguishes prepayment from payment at pickup. We do not create separate payment subclasses. Both choices use the same payment information; the main differences are the payment timing and pricing rules. A reservation can have several payments, for example, a rental payment followed by a cancellation fee. It can also have no recorded payment yet when payment at pickup is selected.
 
-The \texttt{VehicleInspection} class records the car’s condition and the customer’s digital signature. We use \texttt{InspectionType} to distinguish pickup and return inspections. Each rental can have up to two inspections. We assume that there is at most one inspection for each stage and that both are signed before the rental is completed. The signature can remain empty while an inspection is being prepared.
+The \texttt{PickupVehicleInspection} and \texttt{ReturnVehicleInspection} classes record the car's condition and the customer's digital signature.
+Each rental must have one pickup inspection and may have one return inspection, depending on its status. Both inspections must be signed before the rental is completed.
+The signature can remain empty while an inspection is being prepared.
 
-The \texttt{Incident} class records an accident or breakdown during a rental. It stores the location, date and time, circumstances and optional photos. A rental can have no incident or several incidents. We use enumerations for reservation status, payment option, payment purpose, inspection type, incident type and gearbox type to keep these values consistent.
+The \texttt{Incident} class records an accident or breakdown during a rental. It stores the location, date and time, and circumstances. Each incident must have at least one photo, represented by an \texttt{IncidentPhoto} object. A rental can have no incident or several incidents. We use enumerations for reservation status, payment option, payment purpose, inspection type, incident type and gearbox type to keep these values consistent.
 
-We use regular associations because the assignment does not define deletion or exclusive ownership rules that require composition. We use \texttt{Integer} for counts and mileage, \texttt{Decimal} for monetary values, and \texttt{String} for licence plates and postal codes because they may contain letters or leading zeros.
+We use composition between \texttt{Rental} and \texttt{Incident}, and between \texttt{Incident} and \texttt{IncidentPhoto}, to express exclusive ownership: each incident belongs to one rental, and each photo belongs to one incident. Their lifecycles depend on their respective owners. The other relationships use regular associations. We use \texttt{Integer} for counts and mileage, \texttt{Decimal} for monetary values, and \texttt{String} for licence plates and postal codes because they may contain letters or leading zeros.
 
 In \texttt{Rental}, \texttt{returnDateTime} and \texttt{returnMileage} are optional because the actual return time and mileage are unknown until the car is returned.
 \section{Class diagram}
@@ -380,9 +388,9 @@ In \texttt{Rental}, \texttt{returnDateTime} and \texttt{returnMileage} are optio
 %     \caption{Sequence diagram for reservation}
 % \end{figure}
 
-\section{Reservation action}
+\section{Reservation process}
 \subsection{Overview}
-The reservation action allows a customer to book a car rental for a selected location and period.
+The reservation process allows a customer to book a rental car for a selected location and period.
 We divide the customer's journey into three stages.
 
 % First, a user goes to the system and search the pickup location and the pickup and return dates.
@@ -410,7 +418,7 @@ and the payment is recorded in the system. A confirmed reservation is then creat
 \end{figure}
 
 \clearpage
-\subsection{Describe reservation and calculate price}
+\subsection{Describe the reservation and calculate the price}
 The customer provides the pickup location and rental dates to search for offers.
 The \texttt{ReservationController} looks up available offers based on this information.
 The customer then chooses a \texttt{CarType}.
@@ -424,17 +432,17 @@ Once the customer chooses a payment option, the controller calculates the quote 
     \begin{adjustbox}{max totalsize={\linewidth}{0.65\textheight},center}
     \plantumlinput{digrams/sequence/reservation-selection.pu}
     \end{adjustbox}
-    \caption{Describe reservation and calculate price}
+    \caption{Describe the reservation and calculate the price}
     \label{fig:reservation-selection}
 \end{figure}
 
 \clearpage
-\subsection{Identify customer}
+\subsection{Identify the customer}
 The customer must sign in before completing the reservation. The controller authenticates the customer
-and resolves the corresponding \texttt{Customer} object.
+and retrieves the corresponding \texttt{Customer} object.
 After successful authentication, the customer provides their email, first name, last name and address.
 The controller updates the customer's details and indicates that the booking is ready for confirmation.
-The customer’s address is distinct from the pickup location.
+The customer's address is distinct from the pickup location.
 We decided not to include authentication infrastructure details in this diagram.
 
 \begin{figure}[H]
@@ -442,25 +450,25 @@ We decided not to include authentication infrastructure details in this diagram.
     \begin{adjustbox}{max totalsize={\linewidth}{0.65\textheight},center}
     \plantumlinput{digrams/sequence/reservation-customer.pu}
     \end{adjustbox}
-    \caption{Identify customer}
+    \caption{Identify the customer}
     \label{fig:reservation-customer}
 \end{figure}
 
 \clearpage
-\subsection{Finalise reservation}
-The customer confirms that the booking details are correct. The controller rechecks availability and holds capacity for the selected car type.
-The \emph{alt} fragment distinguishes between the two payment options.
+\subsection{Finalise the reservation}
+The customer confirms that the booking details are correct. The controller rechecks availability and reserves capacity for the selected car category.
+The \emph{alt} fragments distinguish between the two payment options.
 In the case of prepayment, the controller creates a \texttt{Payment} object only after successful payment is verified.
 For payment at pickup, no \texttt{Payment} object is created at this stage. The controller then creates a confirmed
-reservation containing the selected dates, category, location, insurance, extra options, payment option and quoted price.
-An \emph{opt} fragment associates the payment with the reservation when prepayment applies.
+\texttt{PrepaidReservation} or \texttt{PaylaterReservation}, depending on the payment option. The reservation contains the selected dates, category, location, insurance, extra options, payment option and quoted price.
+For prepayment, the controller associates the payment with the reservation.
 The resulting confirmation is returned to the controller and delivered to the customer, as shown in the overview diagram.
 \begin{figure}[H]
     \centering
     \begin{adjustbox}{max totalsize={\linewidth}{0.65\textheight},center}
     \plantumlinput{digrams/sequence/reservation-finalize.pu}
     \end{adjustbox}
-    \caption{Finalise reservation}
+    \caption{Finalise the reservation}
     \label{fig:reservation-finalize}
 \end{figure}
 

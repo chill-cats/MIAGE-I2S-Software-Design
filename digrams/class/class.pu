@@ -97,7 +97,14 @@ class Rental {
     - returnMileage : Integer [0..1]
 }
 
-class VehicleInspection {
+class PickupVehicleInspection {
+    - inspectionType : InspectionType
+    - condition : String
+    - dateTime : DateTime
+    - customerSignature : Binary [0..1]
+}
+
+class ReturnVehicleInspection {
     - inspectionType : InspectionType
     - condition : String
     - dateTime : DateTime
@@ -157,7 +164,8 @@ Reservation "0..*" -- "0..*" Insurance : coverage
 Reservation "0..*" -- "0..*" ExtraOption : selects
 Reservation "1" -- "0..*" Payment : payments
 
-Rental "1" -- "0..2" VehicleInspection : inspections
+Rental "1" -- "1" PickupVehicleInspection : inspections
+Rental "1" -- "0..1" ReturnVehicleInspection : inspections
 Rental "1" *-- "0..*" Incident : incidents
 
 Incident "1" *-- "1..*" IncidentPhoto : has
